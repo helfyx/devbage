@@ -2,6 +2,8 @@ import os
 import discord
 from discord import app_commands
 from discord.ext import commands
+from flask import Flask
+from threading import Thread
 
 TOKEN = os.environ.get("TOKEN")
 
@@ -26,6 +28,18 @@ async def on_ready():
     except Exception as e:
         print(f"sync error: {e}")
     print(f"{bot.user} started")
+    
+app = Flask("")
+
+@app.route("/")
+def home():
+    return "Bot is alive!"
+
+def run():
+    app.run(host="0.0.0.0", port=8080)
+
+Thread(target=run).start()
 
 bot.run(TOKEN)
+
 
